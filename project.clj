@@ -1,4 +1,4 @@
-(defproject daren-cljc "0.1.0"
+(defproject daren-cljc "0.1.1"
   :description "Collect of tools for clojure[script]"
   :url "https://github.com:CHNB128/daren-cljc"
   :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"

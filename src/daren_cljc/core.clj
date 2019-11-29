@@ -1,8 +1,12 @@
 (ns daren-cljc.core)
 
-(defn flip
+(defmacro flip'
   [f]
-  (fn [& args] (apply f (reverse args))))
+  `#(~f %2 %1))
+
+(defmacro flip''
+  [f]
+  `#(~f %3 %2 %1))
 
 (defmacro infer-map
   [& args]

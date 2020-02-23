@@ -1,5 +1,8 @@
 (ns daren-cljc.core)
 
+(defn zipvector [& args]
+  (apply map vector args))
+
 (defmacro flip'
   [f]
   `#(~f %2 %1))

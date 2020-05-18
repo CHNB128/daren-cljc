@@ -3,7 +3,7 @@
 
 (defn distinct-by [key col]
   "Take distinct maps from collection by specific key"
-  (->> (cset/index [key])
+  (->> (cset/index col [key])
        (map #(-> % second first))))
 
 (defn remove-by

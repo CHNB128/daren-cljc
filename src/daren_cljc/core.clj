@@ -1,9 +1,15 @@
-(ns daren-cljc.core)
+(ns daren-cljc.core
+  (:require [clojure.set :as cset]))
 
-(defn remove-by-values
-  "Take map and remove keys by predicate"
-  [pred? hashmap]
-  (->> (remove #(pred? (second %)) hashmap)
+(defn distinct-by [key col]
+  "Take distinct maps from collection by specific key"
+  (->> (cset/index [key])
+       (map #(-> % second first))))
+
+(defn remove-by
+  "Take map and remove keys by predicate on value"
+  [pred map]
+  (->> (remove #(pred (second %)) map)
        (reduce (fn [o [k v]] (assoc o k v)) {})))
 
 (defn zipvector [& args]
@@ -15,15 +21,10 @@
    => ([1 2 3] [2 3 4] [3 4 5])"
   (apply map vector args))
 
-(defmacro flip'
-  "Flip function with 2 args"
+(defmacro flip
+  "Flip function args in reverse way"
   [f]
-  `#(~f %2 %1))
-
-(defmacro flip''
-  "Flip function with 3 args"
-  [f]
-  `#(~f %3 %2 %1))
+  `#(apply ~f (reverse %&)))
 
 (defmacro infer-map
   "Create a map from sequence

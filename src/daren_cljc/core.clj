@@ -1,9 +1,10 @@
 (ns daren-cljc.core
   (:require [clojure.set :as cset]))
 
-(defn distinct-by [key col]
-  "Take distinct maps from collection by specific key"
-  (->> (cset/index col [key])
+(defn distinct-by
+  "Return distinct maps from collection by specific key"
+  [key col]
+  (->> (group-by key col)
        (map #(-> % second first))))
 
 (defn remove-by

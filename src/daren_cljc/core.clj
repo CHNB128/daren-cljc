@@ -13,17 +13,20 @@
   (->> (remove #(pred (second %)) map)
        (reduce (fn [o [k v]] (assoc o k v)) {})))
 
-(defn zipvector [& args]
-  "Zip identical by length vectors
-   Example:
-   => (zipvector [1 2 3] [2 3 4] [3 4 5])
-   => ([1 2 3] [2 3 4] [3 4 5])
-   => (zipvector [1 2 3] [2 3 4] [3 4 5 6])
-   => ([1 2 3] [2 3 4] [3 4 5])"
+(defn zipvector
+  "Zip identical by length vectors"
+  {:test #(do
+            (assert (= (remove-values [1 2 3] [2 3 4] [3 4 5])
+                       [[1 2 3] [2 3 4] [3 4 5]]))
+            (assert (= (remove-values [1 2 3] [2 3 4] [3 4 5 6])
+                       [[1 2 3] [2 3 4] [3 4 5]])))}
+  [& args]
   (apply map vector args))
 
 (defmacro flip
   "Flip function args in reverse way"
+  {:test #(let [-fn #(> %1 %2)]
+            (assert (= (-fn 1 2) ((flip -fn) 2 1))))}
   [f]
   `#(apply ~f (reverse %&)))
 

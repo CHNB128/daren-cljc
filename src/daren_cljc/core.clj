@@ -1,17 +1,24 @@
-(ns daren-cljc.core
-  (:require [clojure.set :as cset]))
+(ns daren-cljc.core)
+
+(defn remove-keys
+  "Take map and remove keys by predicate on key"
+  {:test #(let [a {:a 1 :b 2 :c 3}]
+            (assert (= (remove-keys a [:a :b]) {:c 3})))}
+  [-map keycoll]
+  (into {} (remove (comp #(contains? (set keycoll) %) first) -map)))
+
+(defn remove-values
+  "Take map and remove keys by predicate on value"
+  {:test #(let [a {:a 1 :b 2 :c 3}]
+            (assert (= (remove-values #(> % 2) a) {:c 3})))}
+  [pred -map]
+  (into {} (remove (comp pred second) -map)))
 
 (defn distinct-by
   "Return distinct maps from collection by specific key"
   [key col]
   (->> (group-by key col)
        (map #(-> % second first))))
-
-(defn remove-by
-  "Take map and remove keys by predicate on value"
-  [pred map]
-  (->> (remove #(pred (second %)) map)
-       (reduce (fn [o [k v]] (assoc o k v)) {})))
 
 (defn zipvector
   "Zip identical by length vectors"

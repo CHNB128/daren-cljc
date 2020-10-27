@@ -1,0 +1,4 @@
+{:paths ["src"]
+ :aliases
+ {:repl nil}}
+

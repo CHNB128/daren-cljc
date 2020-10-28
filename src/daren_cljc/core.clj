@@ -2,7 +2,8 @@
 
 (defn wrap-call-once!
   "Returns a version of provided function that will be called only the
-  first time wrapping function is called. Returns nil."
+   first time wrapping function is called. Returns nil.
+   Author: Gheorghe Pinzaru"
   {:test (fn []
            (let [-fn #(str "value" "-" 123)
                  wrapped (wrap-call-once! -fn)]
@@ -17,7 +18,8 @@
         nil))))
 
 (defn deep-merge [v & vs]
-  "Merge all nested maps"
+  "Merge all nested maps
+   Author: Gheorghe Pinzaru"
   {:test (fn []
            (let [a {:a {:a 1 :c 2}}]
              (assert (= (deep-merge a {:a {:a 2 :b 3}})

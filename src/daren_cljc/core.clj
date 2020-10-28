@@ -1,5 +1,19 @@
 (ns daren-cljc.core)
 
+(defn deep-merge [v & vs]
+  "Merge all nested maps"
+  {:test (fn []
+           (let [a {:a {:a 1 :c 2}}]
+             (assert (= (deep-merge a {:a {:a 2 :b 3}})
+                        {:a {:a 2 :c 2 :b 3}}))))}
+  (letfn [(rec-merge [v1 v2]
+            (if (and (map? v1) (map? v2))
+              (merge-with deep-merge v1 v2)
+              v2))]
+    (if (some identity vs)
+      (reduce rec-merge v vs)
+      v)))
+
 (defn remove-values
   "Take map and remove keys by predicate on value
    Synonym of:

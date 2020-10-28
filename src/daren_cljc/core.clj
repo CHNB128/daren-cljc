@@ -32,6 +32,25 @@
       (reduce rec-merge v vs)
       v)))
 
+(defn deep-remove-values
+  "Deep version of remove values"
+  {:test (fn []
+           (let [a {:a {:a {:a nil} :c nil :w 2} :b nil}]
+             (assert (= (deep-remove-values a nil?) {:a {:w 2}}))))}
+  [-map pred]
+  (reduce-kv
+    (fn [acc k v]
+      (if (map? v)
+        (let [a (deep-remove-values v pred)]
+          (if-not (or (nil? a) (empty? a))
+            (assoc acc k a)
+            acc))
+        (if-not (pred v)
+          (assoc acc k v)
+          acc)))
+    {}
+    -map))
+
 (defn remove-values
   "Take map and remove keys by predicate on value
    Synonym of:

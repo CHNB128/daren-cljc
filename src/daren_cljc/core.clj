@@ -1,5 +1,21 @@
 (ns daren-cljc.core)
 
+(defn wrap-call-once!
+  "Returns a version of provided function that will be called only the
+  first time wrapping function is called. Returns nil."
+  {:test (fn []
+           (let [-fn #(str "value" "-" 123)
+                 wrapped (wrap-call-once! -fn)]
+             (assert (= (-fn) (wrapped)))
+             (assert (= nil (wrapped)))))}
+  [f]
+  (let [called? (volatile! false)]
+    (fn [& args]
+      (when-not @called?
+        (vreset! called? true)
+        (apply f args)
+        nil))))
+
 (defn deep-merge [v & vs]
   "Merge all nested maps"
   {:test (fn []

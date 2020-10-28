@@ -1,7 +1,9 @@
 (ns daren-cljc.core)
 
 (defn remove-values
-  "Take map and remove keys by predicate on value"
+  "Take map and remove keys by predicate on value
+   Synonym of:
+    (reduce (fn [acc [k v]] (if (pred v) (assco acc k v) acc)) {} -map)"
   {:test (fn []
            (let [a {:a 1 :b 2 :c 3}]
              (assert (= (remove-values #(> % 2) a) {:c 3}))))}

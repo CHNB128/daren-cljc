@@ -117,3 +117,8 @@
     ~@(interleave
        (map (comp keyword name) args)
        args)))
+
+(def noop
+  "Just empty function"
+  (fn []))
+

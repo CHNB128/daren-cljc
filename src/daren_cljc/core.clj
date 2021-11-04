@@ -122,3 +122,9 @@
   "Just empty function"
   (fn []))
 
+(defn once  
+  "Wraps a function to allow it to be called, at most, once. 
+   All additional calls are no-ops." 
+  [f]
+  (let [inner (memoize f)] 
+    (fn [] (inner))))
